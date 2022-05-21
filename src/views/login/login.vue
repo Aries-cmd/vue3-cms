@@ -27,6 +27,7 @@ import LoginPanel from './cpns/login-panel.vue'
   width: 100%;
   height: 100%;
   background: url('../../assets/img/login-bg.svg');
+  // background-color: #2c3e50;
 }
 
 .content {

@@ -35,7 +35,6 @@
 import { NForm, NFormItem, NInput, NButton, NCheckbox } from 'naive-ui'
 import { ref } from 'vue'
 import { useStore } from 'vuex'
-
 const store = useStore()
 
 const formRef = ref(null)

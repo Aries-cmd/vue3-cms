@@ -1,15 +1,18 @@
 <template>
   <div>
     <n-message-provider>
-      <MessageApi />
+      <message-api />
     </n-message-provider>
-    <router-view></router-view>
+
+    <n-config-provider :locale="zhCN" :date-locale="dateZhCN">
+      <router-view></router-view>
+    </n-config-provider>
   </div>
 </template>
 
 <script setup>
-import MessageApi from '@/components/message-api.vue'
-import { NMessageProvider } from 'naive-ui'
+import MessageApi from '@/global/message-api.vue'
+import { NMessageProvider, NConfigProvider, zhCN, dateZhCN } from 'naive-ui'
 </script>
 
 <style lang="less"></style>

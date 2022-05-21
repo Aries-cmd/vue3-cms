@@ -13,8 +13,18 @@ request.interceptors.response.use((res) => {
   if (status === 200 || status === 204) {
     return res
   } else {
+    console.log(1)
     return Promise.reject(new Error(res))
   }
+})
+
+request.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token')
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
+
+  return config
 })
 
 export default request
