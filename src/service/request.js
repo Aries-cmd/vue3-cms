@@ -6,17 +6,17 @@ const request = axios.create({
   timeout: TIME_OUT
 })
 
-request.interceptors.response.use((res) => {
-  console.log(res, '测试')
-  const { status } = res
-
-  if (status === 200 || status === 204) {
+request.interceptors.response.use(
+  (res) => {
     return res
-  } else {
-    console.log(1)
-    return Promise.reject(new Error(res))
+  },
+  (err) => {
+    if (err && err.response) {
+      window.$message.error(err.response.data)
+      return err
+    }
   }
-})
+)
 
 request.interceptors.request.use((config) => {
   const token = localStorage.getItem('token')

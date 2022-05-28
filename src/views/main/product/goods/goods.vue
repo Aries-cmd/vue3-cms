@@ -26,7 +26,6 @@ store.dispatch('productModule/getPageListAction', {
 })
 
 const tbodyList = computed(() => store.state.productModule.productList)
-console.log(tbodyList)
 
 const theadValues = ref([
   {
@@ -34,7 +33,7 @@ const theadValues = ref([
   },
   {
     title: '序号',
-    key: 'id',
+    key: 'sort',
     width: 60
   },
   {

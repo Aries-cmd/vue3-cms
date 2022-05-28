@@ -1,13 +1,14 @@
 <template>
   <div class="table-header">
     <h2>{{ title }}</h2>
-    <n-button type="primary">{{ buttonText }}</n-button>
+    <n-button @click="showDialog" type="primary">{{ buttonText }}</n-button>
   </div>
 </template>
 
 <script setup>
 import { NButton } from 'naive-ui'
 import { defineProps } from 'vue'
+import emitter from '@/utils/eventbus.js'
 
 defineProps({
   title: {
@@ -17,6 +18,11 @@ defineProps({
     type: String
   }
 })
+
+const showDialog = () => {
+  emitter.emit('createShowDialog')
+  emitter.emit('handleDialogTitle')
+}
 </script>
 
 <style lang="less" scoped>

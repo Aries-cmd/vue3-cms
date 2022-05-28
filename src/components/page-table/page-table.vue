@@ -11,6 +11,7 @@
       :data="data"
       :pagination="pagination"
       :single-line="false"
+      :loading="loadingRef"
     />
   </div>
 </template>
@@ -18,9 +19,12 @@
 <script setup>
 import { NDataTable } from 'naive-ui'
 // import { Edit, Delete } from '@vicons/carbon'
-import { defineProps, reactive, ref, watch } from 'vue'
+import { computed, defineProps, reactive, ref, watch } from 'vue'
+import { useStore } from 'vuex'
 import { formatUtcTime } from '@/utils/format'
 import TableHeader from '@/components/table-header/table-header.vue'
+
+const store = useStore()
 
 const props = defineProps({
   tbodyList: {
@@ -56,7 +60,6 @@ const pagination = ref()
 watch(
   () => props.tbodyList,
   () => {
-    // console.log(newValue)
     const createColumns = (theadValues) => {
       let list = []
 
@@ -73,13 +76,15 @@ watch(
       tbodyList.forEach((item, index) => {
         list.push({
           key: item.id,
-          id: index + 1,
+          sort: index + 1,
           name: item.name,
           intro: item.intro,
           type: item.type,
           desc: item.desc,
           oldPrice: item.oldPrice,
           newPrice: item.newPrice,
+          departmentId: item.departmentId,
+          roleId: item.roleId,
           url: item.url,
           icon: item.icon,
           realname: item.realname,
@@ -94,7 +99,6 @@ watch(
           productImage: [{ src: item.imgUrl }]
         })
         function initChildrenMenu(pItem) {
-          console.log(item)
           if (pItem) {
             let children = []
             pItem.forEach((item) => {
@@ -130,9 +134,11 @@ watch(
     columns.value = createColumns(props.theadValues)
 
     if (props.showPaginationMenu) {
+      const paginationStore = computed(() => store.state.pagination)
+
       pagination.value = reactive({
         page: 1,
-        pageSize: 5,
+        pageSize: paginationStore.value.pageSize,
         showSizePicker: true,
         showQuickJumper: true,
         pageSizes: [3, 5, 7, 10, 15],
@@ -140,8 +146,8 @@ watch(
           pagination.value.page = page
         },
         onUpdatePageSize: (pageSize) => {
-          pagination.value.pageSize = pageSize
-          pagination.value.page = 1
+          store.commit('changePagination', { name: 'pageSize', size: pageSize })
+          pagination.value.pageSize = paginationStore.value.pageSize
         }
       })
     }
@@ -154,7 +160,7 @@ watch(
 .user-table {
   margin-top: 20px;
   padding: 20px 15px;
-  background-color: #2c3e50;
+  background-color: #001e26;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
 }

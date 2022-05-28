@@ -1,20 +1,18 @@
 <template>
   <div class="chat">
-    <div>
-      <Toolbar
-        style="border-bottom: 1px solid #ccc"
-        :editor="editorRef"
-        :defaultConfig="toolbarConfig"
-        :mode="mode"
-      />
-      <Editor
-        style="height: 100vh; overflow-y: hidden"
-        v-model="valueHtml"
-        :defaultConfig="editorConfig"
-        :mode="mode"
-        @onCreated="handleCreated"
-      />
-    </div>
+    <Toolbar
+      style="border-bottom: 1px solid #ccc"
+      :editor="editorRef"
+      :defaultConfig="toolbarConfig"
+      :mode="mode"
+    />
+    <Editor
+      style="overflow-y: hidden"
+      v-model="valueHtml"
+      :defaultConfig="editorConfig"
+      :mode="mode"
+      @onCreated="handleCreated"
+    />
   </div>
 </template>
 
@@ -41,9 +39,12 @@ onBeforeUnmount(() => {
 })
 
 const handleCreated = (editor) => {
-  console.log(editor)
   editorRef.value = editor // 记录 editor 实例，重要！
 }
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.chat {
+  height: 100%;
+}
+</style>

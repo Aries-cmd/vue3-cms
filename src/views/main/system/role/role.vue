@@ -1,59 +1,29 @@
 <template>
   <div class="role-content">
-    <page-from>
-      <n-form
-        label-placement="left"
-        label-width="170px"
-        :model="modelRef"
-        ref="formRef"
-      >
-        <n-grid :x-gap="12" :y-gap="6" :cols="3">
-          <n-grid-item>
-            <n-form-item label="角色名称" path="name">
-              <n-input
-                placeholder="请输入用户名"
-                v-model:value="modelRef.name"
-              />
-            </n-form-item>
-          </n-grid-item>
-          <n-grid-item>
-            <n-form-item label="权限介绍" path="intro">
-              <n-input
-                placeholder="请输入权限介绍"
-                v-model:value="modelRef.phone"
-              />
-            </n-form-item>
-          </n-grid-item>
-          <n-grid-item>
-            <n-form-item label="创建时间" path="createTime">
-              <n-date-picker
-                type="daterange"
-                v-model:value="modelRef.createTime"
-                clearable
-              />
-            </n-form-item>
-          </n-grid-item>
-        </n-grid>
-        <div class="button">
-          <n-button size="large">
-            <template #icon>
-              <n-icon>
-                <reset />
-              </n-icon>
-            </template>
+    <page-from
+      :showTitle="true"
+      v-model="roleFormModelRef"
+      :formConfig="roleFormConfig"
+      title="高级检索"
+      @update:modelValue="changeUserModelRef"
+    >
+      <template #button>
+        <div class="form-button">
+          <n-button @click="handleResetClick">
+            <n-icon>
+              <reset />
+            </n-icon>
             重置
           </n-button>
           &nbsp;
-          <n-button size="large" type="primary" @click="searchClick">
-            <template #icon>
-              <n-icon>
-                <search-outline />
-              </n-icon>
-            </template>
+          <n-button type="primary" @click="handleQueryClick">
+            <n-icon>
+              <search-outline />
+            </n-icon>
             搜索
           </n-button>
         </div>
-      </n-form>
+      </template>
     </page-from>
     <page-table
       :theadValues="theadValues"
@@ -70,36 +40,28 @@ import { computed } from 'vue'
 import PageTable from '@/components/page-table/page-table.vue'
 import PageFrom from '@/components/page-form/page-from.vue'
 import { h, ref } from 'vue'
-import {
-  NGrid,
-  NGridItem,
-  NFormItem,
-  NInput,
-  NDatePicker,
-  NForm,
-  NButton,
-  NIcon
-} from 'naive-ui'
+import { NButton, NIcon } from 'naive-ui'
 import { Reset } from '@vicons/carbon'
 import { SearchOutline } from '@vicons/ionicons5'
-
-const modelRef = ref({
-  name: null,
-  intro: null,
-  createTime: null
-})
-
+import { modelRef, formConfig } from './role-form.js'
 const store = useStore()
+
+// form
+const roleFormModelRef = ref(modelRef)
+const roleFormConfig = ref(formConfig)
+const changeUserModelRef = (item) => {
+  roleFormModelRef.value = item
+}
+
 store.dispatch('systemModule/getPageListAction', {
   pageUrl: '/role/list',
   queryInfo: {
     offset: 0,
     size: 10
   },
-  pageName: 'role'
+  pageName: 'roles'
 })
 const roleList = computed(() => store.state.systemModule.roleList)
-console.log(roleList)
 
 const theadValues = ref([
   {
@@ -108,7 +70,7 @@ const theadValues = ref([
 
   {
     title: '序号',
-    key: 'id'
+    key: 'sort'
   },
   {
     title: '角色名',
@@ -156,7 +118,7 @@ const theadValues = ref([
   background-color: #000;
 }
 
-.button {
+.form-button {
   display: flex;
   justify-content: flex-end;
 }

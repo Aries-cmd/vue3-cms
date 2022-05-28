@@ -52,8 +52,6 @@ function renderIcon(icon) {
 }
 
 // 菜单列表
-
-console.log(props.userMenus)
 const icons = [
   DesktopOutline,
   SettingsOutline,
@@ -76,7 +74,6 @@ const defaultValue = computed(() => {
   return store.state.menuModule.defaultValue
 })
 const updateExpandedKeys = (e) => {
-  console.log(e[e.length - 1])
   defaultExpandedKeys.value = e[e.length - 1]
   store.commit('menuModule/changeDefaultExpandedKeys', e[e.length - 1])
 }

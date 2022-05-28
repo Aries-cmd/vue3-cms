@@ -4,8 +4,8 @@ export default {
     collapsed: false,
     logPaddingLeft: '20px',
     defaultExpandedKeys:
-      localStorage.getItem('defaultExpandedKeys') || '系统管理',
-    defaultValue: localStorage.getItem('defaultValue') || '用户管理'
+      localStorage.getItem('defaultExpandedKeys') || '系统总览',
+    defaultValue: localStorage.getItem('defaultValue') || '核心技术'
   }),
   mutations: {
     changeCollapsed(state) {

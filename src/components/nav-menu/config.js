@@ -1,5 +1,4 @@
 const getMenuList = (menus, icons, h, renderIcon, RouterLink) => {
-  console.log(menus)
   let menuOptions = []
   menus.forEach((item, index) => {
     let menu = {

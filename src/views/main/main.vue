@@ -1,5 +1,5 @@
 <template>
-  <n-config-provider :theme="darkTheme">
+  <n-config-provider :theme="darkTheme" :hljs="hljs">
     <n-layout has-sider class="layout">
       <n-layout-sider
         class="sider"
@@ -12,7 +12,7 @@
         :on-update:collapsed="changeCollapsed"
         :native-scrollbar="false"
       >
-        <nav-menu 
+        <nav-menu
           :collapsed="collapsed"
           :logPaddingLeft="logPaddingLeft"
           :userMenus="userMenus"
@@ -39,6 +39,7 @@ import {
   NConfigProvider,
   darkTheme
 } from 'naive-ui'
+import hljs from 'highlight.js'
 import NavMenu from '@/components/nav-menu/nav-menu.vue'
 import NavHeader from '@/components/nav-header/nav-header.vue'
 import { computed } from 'vue'

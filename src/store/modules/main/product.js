@@ -19,7 +19,6 @@ export default {
       const { pageUrl, queryInfo, pageName } = payload
       const pageResult = await getPageListData(pageUrl, queryInfo)
       const { list, totalCount } = pageResult.data.data
-      console.log(list)
 
       switch (pageName) {
         case 'product':

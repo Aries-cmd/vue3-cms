@@ -1,6 +1,9 @@
 import {
   getPageListData,
-  getMenuList
+  getMenuList,
+  deletePageData,
+  createUserData,
+  editUserData
 } from '../../../service/main/system/system'
 
 export default {
@@ -34,14 +37,13 @@ export default {
       const { pageUrl, queryInfo, pageName } = payload
       const pageResult = await getPageListData(pageUrl, queryInfo)
       const { list, totalCount } = pageResult.data.data
-      console.log(list)
 
       switch (pageName) {
-        case 'user':
+        case 'users':
           commit('changeUserList', list)
           commit('changeUserCount', totalCount)
           break
-        case 'role':
+        case 'roles':
           commit('changeRoleList', list)
           commit('changeRoleCount', totalCount)
           break
@@ -50,8 +52,50 @@ export default {
     async getPageMenuList({ commit }, payload) {
       const { url } = payload
       const pageResult = await getMenuList(url)
-      console.log(pageResult.data.data.list)
       commit('changeMenuList', pageResult.data.data.list)
+    },
+    async deletePageDataAction({ dispatch }, payload) {
+      const { pageName, id } = payload
+      const pageUrl = `/${pageName}/${id}`
+
+      const result = await deletePageData(pageUrl)
+      window.$message.success(result.data.data)
+      dispatch('getPageListAction', {
+        pageUrl: '/users/list',
+        pageName,
+        queryInfo: {
+          offset: 0,
+          size: 10
+        }
+      })
+    },
+    async createUserDataAction({ dispatch }, payload) {
+      const { url, data } = payload
+      const result = await createUserData(url, data)
+      window.$message.success(result.data.data)
+
+      dispatch('getPageListAction', {
+        pageUrl: '/users/list',
+        pageName: 'users',
+        queryInfo: {
+          offset: 0,
+          size: 10
+        }
+      })
+    },
+    async editUserDataAction({ dispatch }, payload) {
+      const { url, data } = payload
+      const result = await editUserData(url, data)
+      window.$message.success(result.data.data)
+
+      dispatch('getPageListAction', {
+        pageUrl: '/users/list',
+        pageName: 'users',
+        queryInfo: {
+          offset: 0,
+          size: 10
+        }
+      })
     }
   }
 }

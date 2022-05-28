@@ -68,7 +68,6 @@ store.dispatch('systemModule/getPageMenuList', {
   url: '/menu/list'
 })
 const tbodyList = computed(() => store.state.systemModule.menuList)
-console.log(tbodyList)
 </script>
 
 <style lang="less" scoped>
